@@ -3,7 +3,7 @@
 block_cipher = None
 
 # Executable name
-exe_name = 'DariaBond1Flash'
+exe_name = 'Bond1OS5Downgrade'
 
 a = Analysis(
     ['bond1_downgrade_os5.py'],  # Your main script name
