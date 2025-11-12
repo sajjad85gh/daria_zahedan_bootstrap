@@ -55,7 +55,7 @@ jobs:
 
       - name: Build Linux executable
         run: |
-          pyinstaller daria_bond_flash.spec
+          pyinstaller bond1_downgrade_os5.spec
 
       - name: Make executable
         run: chmod +x dist/Bond1OS5Downgrade
