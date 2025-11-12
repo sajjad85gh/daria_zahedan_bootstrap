@@ -80,7 +80,7 @@ def check_device(fastboot_path):
     result = run_fastboot(fastboot_path, "getvar", "product")
 
     if "k6877v1_64" in result.stdout:
-        print("Daria Bond 1 on ")
+        print("Daria Bond 1 on DariaOS 6+ Found.")
 
 def md5(file_path):
     # Calculate the MD5 hash of a file.
