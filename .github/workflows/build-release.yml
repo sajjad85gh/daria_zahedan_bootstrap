@@ -29,13 +29,13 @@ jobs:
 
       - name: Build Windows executable
         run: |
-          pyinstaller daria_bond_flash.spec
+          pyinstaller bond1_downgrade_os5.spec
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DariaBond1Flash-Windows
-          path: dist/DariaBond1Flash.exe
+          name: Bond1OS5Downgrade-Windows
+          path: dist/Bond1OS5Downgrade.exe
 
   build-linux:
     runs-on: ubuntu-latest
@@ -58,13 +58,13 @@ jobs:
           pyinstaller daria_bond_flash.spec
 
       - name: Make executable
-        run: chmod +x dist/DariaBond1Flash
+        run: chmod +x dist/Bond1OS5Downgrade
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DariaBond1Flash-Linux
-          path: dist/DariaBond1Flash
+          name: Bond1OS5Downgrade-Linux
+          path: dist/Bond1OS5Downgrade
 
   create-release:
     needs: [build-windows, build-linux]
@@ -76,12 +76,12 @@ jobs:
       - name: Download Windows artifact
         uses: actions/download-artifact@v4
         with:
-          name: DariaBond1Flash-Windows
+          name: Bond1OS5Downgrade-Windows
 
       - name: Download Linux artifact
         uses: actions/download-artifact@v4
         with:
-          name: DariaBond1Flash-Linux
+          name: Bond1OS5Downgrade-Linux
 
       - name: Create/Update Nightly Release
         if: github.ref == 'refs/heads/bond1-downgrade-os5'
@@ -90,8 +90,8 @@ jobs:
           tag_name: nightly
           name: Nightly Build
           files: |
-            DariaBond1Flash.exe
-            DariaBond1Flash
+            Bond1OS5Downgrade.exe
+            Bond1OS5Downgrade
           draft: false
           prerelease: true
           generate_release_notes: false
@@ -109,8 +109,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            DariaBond1Flash.exe
-            DariaBond1Flash
+            Bond1OS5Downgrade.exe
+            Bond1OS5Downgrade
           draft: false
           prerelease: false
           generate_release_notes: true
