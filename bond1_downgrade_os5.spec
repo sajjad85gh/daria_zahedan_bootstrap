@@ -6,7 +6,7 @@ block_cipher = None
 exe_name = 'DariaBond1Flash'
 
 a = Analysis(
-    ['daria_bond_flash.py'],  # Your main script name
+    ['bond1_downgrade_os5.py'],  # Your main script name
     pathex=[],
     binaries=[],
     datas=[
