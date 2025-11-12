@@ -225,15 +225,15 @@ def start_downgrade(fastboot):
     print("   super.img: shared")
     print("   All others: flashed to _a and _b")
     print("   Final active slot: A")
-    print("   Rebooting in 3 seconds...")
+    # print("   Rebooting in 3 seconds...")
     print("=" * 42)
     print()
 
     time.sleep(3)
     
     # Reboot device
-    result = run_fastboot(fastboot, "reboot")
-    print("Device rebooted into slot A")
+    # result = run_fastboot(fastboot, "reboot")
+    # print("Device rebooted into slot A")
     
     # Pause on Windows to keep window open
     if platform.system() == "Windows":
