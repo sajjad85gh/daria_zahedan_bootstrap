@@ -3,7 +3,7 @@ name: Build and Release
 on:
   push:
     branches:
-      - bond1-downgrade-os5
+      - DariaOS-5.0-20241205
     tags:
       - 'v*'
   workflow_dispatch:
@@ -29,13 +29,13 @@ jobs:
 
       - name: Build Windows executable
         run: |
-          pyinstaller bond1_downgrade_os5.spec
+          pyinstaller bond1_os5_bootstrap.spec
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Bond1OS5Downgrade-Windows
-          path: dist/Bond1OS5Downgrade.exe
+          name: Bond1DariaOS5Bootstrap-Windows
+          path: dist/Bond1DariaOS5Bootstrap.exe
 
   build-linux:
     runs-on: ubuntu-latest
@@ -55,62 +55,40 @@ jobs:
 
       - name: Build Linux executable
         run: |
-          pyinstaller bond1_downgrade_os5.spec
+          pyinstaller bond1_os5_bootstrap.spec
 
       - name: Make executable
-        run: chmod +x dist/Bond1OS5Downgrade
+        run: chmod +x dist/Bond1DariaOS5Bootstrap
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Bond1OS5Downgrade-Linux
-          path: dist/Bond1OS5Downgrade
+          name: Bond1DariaOS5Bootstrap-Linux
+          path: dist/Bond1DariaOS5Bootstrap
 
   create-release:
     needs: [build-windows, build-linux]
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main'
+    if: startsWith(github.ref, 'refs/tags/')
     permissions:
       contents: write
     steps:
       - name: Download Windows artifact
         uses: actions/download-artifact@v4
         with:
-          name: Bond1OS5Downgrade-Windows
+          name: Bond1DariaOS5Bootstrap-Windows
 
       - name: Download Linux artifact
         uses: actions/download-artifact@v4
         with:
-          name: Bond1OS5Downgrade-Linux
-
-      - name: Create/Update Nightly Release
-        if: github.ref == 'refs/heads/bond1-downgrade-os5'
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: nightly
-          name: Nightly Build
-          files: |
-            Bond1OS5Downgrade.exe
-            Bond1OS5Downgrade
-          draft: false
-          prerelease: true
-          generate_release_notes: false
-          body: |
-            Automated nightly build from the latest commit.
-            
-            **⚠️ Warning:** This is a development build and may be unstable.
-            
-            Latest commit: ${{ github.sha }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: Bond1DariaOS5Bootstrap-Linux
 
       - name: Create Version Release
-        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            Bond1OS5Downgrade.exe
-            Bond1OS5Downgrade
+            Bond1DariaOS5Bootstrap.exe
+            Bond1DariaOS5Bootstrap
           draft: false
           prerelease: false
           generate_release_notes: true

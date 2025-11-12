@@ -3,10 +3,10 @@
 block_cipher = None
 
 # Executable name
-exe_name = 'Bond1OS5Downgrade'
+exe_name = 'Bond1DariaOS5Bootstrap'
 
 a = Analysis(
-    ['bond1_downgrade_os5.py'],  # Your main script name
+    ['bond1_os5_bootstrap.py'],  # Your main script name
     pathex=[],
     binaries=[],
     datas=[

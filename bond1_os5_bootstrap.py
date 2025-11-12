@@ -12,7 +12,7 @@ from pathlib import Path
 import hashlib
 from tqdm import tqdm
 
-IS_TESTING = True
+IS_TESTING = False
 
 IS_WINDOWS = platform.system() == "Windows"
 
@@ -52,7 +52,7 @@ def run_fastboot(fastboot_path, *args):
     cmd = [fastboot_path] + list(args)
     if IS_TESTING:
         while True:
-            inp = input(f"[TESTING] Run '{cmd}'? [y/n] ").lower()
+            inp = input(f"[TESTING] Run '{cmd}'? [y/n]: ").lower()
             if inp == "y":
                 result = subprocess.run(cmd, capture_output=True, text=True)
                 return result
@@ -77,7 +77,10 @@ def check_device(fastboot_path):
         print("   Run: adb reboot bootloader")
         sys.exit(1)
     
-    print("Device detected")
+    result = run_fastboot(fastboot_path, "getvar", "product")
+
+    if "k6877v1_64" in result.stdout:
+        print("Daria Bond 1 on ")
 
 def md5(file_path):
     # Calculate the MD5 hash of a file.
@@ -165,9 +168,12 @@ def show_disclaimer():
     for i in list(reversed(range(10))):
         print(f"{i}s to continue...", end="\r")
         time.sleep(1)
-    if input(f"Continue - ادامه? [y/n] ").lower() == "y":
-        return True
-    else: sys.exit(1)
+    
+    while True:
+        match input(f"Continue - ادامه? [y/n]: ").lower():
+            case "y": return True
+            case "n": sys.exit(1)
+            case _: print("Invalid Option.")
 
 def clear_screen():
     """Clear screen for both Windows and Linux"""
@@ -225,15 +231,17 @@ def start_downgrade(fastboot):
     print("   super.img: shared")
     print("   All others: flashed to _a and _b")
     print("   Final active slot: A")
-    # print("   Rebooting in 3 seconds...")
     print("=" * 42)
     print()
 
     time.sleep(3)
     
     # Reboot device
-    # result = run_fastboot(fastboot, "reboot")
-    # print("Device rebooted into slot A")
+    print("Do you want the device to reboot? Only type 'y' if all images flashed without any error.")
+    print("آیا می‌خواهید دستگاه راه‌اندازی مجدد شود؟ فقط اگر همهٔ ایمیج‌ها بدون هیچ خطایی فلش شده‌اند، حرف 'y' را وارد کنید.")
+    if input("Reboot? [y/n]: "):
+        result = run_fastboot(fastboot, "reboot")
+        print("Device rebooted into slot A")
     
     # Pause on Windows to keep window open
     if platform.system() == "Windows":
@@ -246,16 +254,16 @@ def main():
 
     while True:
         print("=" * 60)
-        print("   Daria Bond 1 (zahedan) - Downgrade to os5 - k4.19 Script")
+        print("   Daria Bond 1 (zahedan) - bootstrap to DariaOS5 - k4.19 Script")
         print(f"   Fastboot: {fastboot}")
-        print("   Enter fastboot and type 1 to start downgrade.")
+        print("   Enter fastboot and type 1 to start bootstrap.")
         print()
         print("   Credits: @Itis_Sajjad - @Fanniasl - @FarzinKazemzadeh")
         print("=" * 60)
 
 
-        print("1) Start Downgrade - شروع داون‌گرید")
-        print("2) Download ROM - بارگیری رام")
+        print("1) Start bootstrap - شروع بوت‌استرپ")
+        print("2) Download ROM - بارگیری رام (بزودی)")
         print("3) Enable TESTING mode - فعال کردن حالت تست")
         print("4) Exit- خروح")
         print()
