@@ -279,7 +279,6 @@ def main():
                 global IS_TESTING 
                 IS_TESTING = True
                 print("Test mode enabled!")
-                sys.exit(0)
             case "4":
                 print("Goodbye!")
                 sys.exit(0)
