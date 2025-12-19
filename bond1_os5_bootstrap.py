@@ -253,19 +253,22 @@ def start_downgrade(fastboot):
         input("\nPress Enter to exit...")
 
 def main():
+    global IS_TESTING
+    global FASTBOOT_DEVICE_CHECKS
+
     # Get fastboot path
     fastboot = get_fastboot_path()
     clear_screen()
 
     while True:
-        print("=" * 60)
+        print("=" * 65)
         print("   Daria Bond 1 (zahedan) - bootstrap to DariaOS5 - k4.19 Script")
         print(f"   Fastboot: {fastboot}")
         print(f"   Testing: {IS_TESTING} | Fastboot Device Checks: {FASTBOOT_DEVICE_CHECKS}")
         print("   Enter fastboot and type 1 to start bootstrap.")
         print()
         print("   Credits: @Itis_Sajjad - @Fanniasl - @FarzinKazemzadeh")
-        print("=" * 60)
+        print("=" * 65)
 
 
         print("1) Start bootstrap - شروع بوت‌استرپ")
@@ -280,14 +283,12 @@ def main():
         match choice:
             case "1":
                 start_downgrade(fastboot)
-            # case "2":
-            #     download_rom()
+            case "2":
+                print("Soon.")
             case "3":
-                global IS_TESTING 
                 IS_TESTING = True
                 print("Test mode enabled!")
             case "4":
-                global FASTBOOT_DEVICE_CHECKS
                 FASTBOOT_DEVICE_CHECKS = False
                 print("Fastboot Device Checks Disabled.")
             case "5":
