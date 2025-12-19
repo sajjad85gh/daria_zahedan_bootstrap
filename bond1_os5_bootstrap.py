@@ -70,11 +70,11 @@ def run_fastboot(fastboot_path, *args):
 
 def check_device(fastboot_path):
     """Check if device is in fastboot mode"""
-    print("Checking device...")
-    result = run_fastboot(fastboot_path, "devices")
-
     if not FASTBOOT_DEVICE_CHECKS:
         return
+    
+    print("Checking device...")
+    result = run_fastboot(fastboot_path, "devices")
     
     if not result.stdout.strip() or "fastboot" not in result.stdout:
         print()
