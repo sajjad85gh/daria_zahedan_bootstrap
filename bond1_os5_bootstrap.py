@@ -14,6 +14,8 @@ from tqdm import tqdm
 
 IS_TESTING = False
 
+FASTBOOT_DEVICE_CHECKS = True
+
 IS_WINDOWS = platform.system() == "Windows"
 
 PARTITIONS = [
@@ -70,6 +72,9 @@ def check_device(fastboot_path):
     """Check if device is in fastboot mode"""
     print("Checking device...")
     result = run_fastboot(fastboot_path, "devices")
+
+    if not FASTBOOT_DEVICE_CHECKS:
+        return
     
     if not result.stdout.strip() or "fastboot" not in result.stdout:
         print()
@@ -265,10 +270,11 @@ def main():
         print("1) Start bootstrap - شروع بوت‌استرپ")
         print("2) Download ROM - بارگیری رام (بزودی)")
         print("3) Enable TESTING mode - فعال کردن حالت تست")
-        print("4) Exit- خروح")
+        print("4) Disable Fastboot Device Checks - غیرفعال کردن بررسی دستگاه در فست‌بوت")
+        print("5) Exit- خروح")
         print()
         
-        choice = input("Choose an option [1-4]: ").strip()
+        choice = input("Choose an option [1-5]: ").strip()
         
         match choice:
             case "1":
@@ -280,10 +286,16 @@ def main():
                 IS_TESTING = True
                 print("Test mode enabled!")
             case "4":
+                global FASTBOOT_DEVICE_CHECKS
+                FASTBOOT_DEVICE_CHECKS = False
+                print("Fastboot Device Checks Disabled.")
+            case "5":
                 print("Goodbye!")
                 sys.exit(0)
             case _:
                 print("Invalid choice.")
+
+    input("Press any key to exit...")
 
 
 if __name__ == "__main__":
