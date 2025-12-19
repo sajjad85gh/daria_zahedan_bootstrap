@@ -261,6 +261,7 @@ def main():
         print("=" * 60)
         print("   Daria Bond 1 (zahedan) - bootstrap to DariaOS5 - k4.19 Script")
         print(f"   Fastboot: {fastboot}")
+        print(f"   Testing: {IS_TESTING} | Fastboot Device Checks: {FASTBOOT_DEVICE_CHECKS}")
         print("   Enter fastboot and type 1 to start bootstrap.")
         print()
         print("   Credits: @Itis_Sajjad - @Fanniasl - @FarzinKazemzadeh")
